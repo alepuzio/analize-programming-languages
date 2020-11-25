@@ -90,7 +90,7 @@ summary(dataset.compare.languages)
 status(dataset.compare.languages)
 
 
-#analize the values
+print("analize the values")
 freq(dataset.compare.languages$Imperative)
 freq(dataset.compare.languages$OOP)
 freq(dataset.compare.languages$Functional)
@@ -211,10 +211,8 @@ dataset.compare.languages$Symbolic.Computing <- ifelse(grepl("symbolic computing
 dataset.compare.languages$System <- ifelse(grepl("system", dataset.compare.languages$Use), "Yes", "No")
 dataset.compare.languages$Web <- ifelse(grepl("web", dataset.compare.languages$Use), "Yes", "No")
 
-#better...
+print("better...")
 describe(dataset.compare.languages)
-
-
 
 
 
