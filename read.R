@@ -98,7 +98,7 @@ freq(dataset.compare.languages$Procedural)
 freq(dataset.compare.languages$Generic)
 freq(dataset.compare.languages$Reflective)
 
-# uhm... there are some values with strange meaning
+# uhm... there are some values with unclear meaning
 # I allow only the values: No, Yes, Parzial
 #manage the empty values
 ## Imperative
