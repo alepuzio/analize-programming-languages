@@ -15,7 +15,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 ### Ask a new functionality
 * Open a new issue, describing the problem or the new functionality. If it's possible, use the format **AS ... I WOULD ... TO OBTAIN...**
 * Open a new local branch
-* Please follow the guidelines in [Google 's R Style Guide]() and in [Efficient R Programming](): if you don't follow these guidelines, when you push your code and you request a pull request, I have one excuse to refuse your request
+* Please follow the guidelines in [Google 's R Style Guide](https://google.github.io/styleguide/Rguide.html) and in [Efficient R Programming](https://csgillespie.github.io/efficientR/): if you don't follow these guidelines, when you push your code and you request a pull request, I have one excuse to refuse your request
 * The assignment operators ( <- and =) must have one empty space before and one empty space after (no value or variabile concateined). For example: * a <- 10* , * b = 123* are allowed, but **a<- 10** and **b =123** not are
 
 ## Pull Request Process
