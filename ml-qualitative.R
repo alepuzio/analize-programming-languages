@@ -17,10 +17,25 @@ dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Num.
 dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Num.Paradigma == 0,]$Language
 
 
+#Count the uses
+dataset.compare.languages.qualitative$Num.Uses <- str_count(dataset.compare.languages.qualitative$Use, ',')+1
+dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Use == "" ,]$Num.Uses <-0
+
+#count the number of other paradigm
+dataset.compare.languages.qualitative$Num.Other <- str_count(dataset.compare.languages.qualitative$Other, ',')+1
+dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Other == "" ,]$Num.Other <-0
+
+dataset.compare.languages.qualitative <- my.safe.copy.dataframe(dataset.compare.languages.qualitative)
+dataset.compare.languages.qualitative$Num.Standard <- str_count(dataset.compare.languages.qualitative$Standardized, ',')+1
+#correggere, se contiene no
+dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Standardized == "No" ,]$Num.Standard <-0
+
+
 
 dataset.compare.languages.qualitative$Standardized <- NULL
 dataset.compare.languages.qualitative$Use<-NULL
 dataset.compare.languages.qualitative$Other <- NULL
+
 #Load libraries to drawing the decision trees
 
 library("rpart")
@@ -44,17 +59,25 @@ table(prediction, test$Functional)
 fancyRpartPlot(treemodel)
 
 
-#Relation between Web and mobile and paradigmea
-formula.reflective.use.cases <- Web +Mobile~ Num.Paradigma
+#Relation between Web and mobile and number of use case
+formula.reflective.use.cases <- Web +Mobile ~ Num.Uses
 treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
 prediction <- predict (treemodel, newdata = test, type = 'class')
 table(prediction, test$Reflective)
 fancyRpartPlot(treemodel)
 
 
-formula.reflective.use.cases <- Num.Paradigma ~  Functional + Imperative
+formula.reflective.use.cases <- Num.Paradigma ~  Functional 
 treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
 prediction <- predict (treemodel, newdata = test, type = 'class')
 table(prediction, test$Reflective)
 fancyRpartPlot(treemodel)
 
+colnames(dataset.compare.languages.qualitative)
+
+dataset.compare.languages.qualitative <- dataset.compare.languages.qualitative[,36:39]
+correlation.data <- dataset.compare.languages.qualitative
+cor.table = cor(correlation.data)
+corrplot(cor.table, method = "number",type = "lower")
+
+#linear regression
