@@ -63,17 +63,18 @@ my.save.data.on.file <- function(x, name, directory = ".\\") {
     )
   }
 }
-raw.compare.languages <-  read.csv("../input/programminglanguages/raw_compare_languages.csv", sep = ";",fileEncoding="latin1")
 #EDA of the dataset read by web scraping
 
+url <- "https://en.wikipedia.org/wiki/Comparison_of_programming_languages"
+raw.compare.languages <- my.raw.wikipedia(url,2)
 dataset.compare.languages <- my.safe.copy.dataframe(raw.compare.languages)
 colnames(dataset.compare.languages ) <- c("Language","Use","Imperative",
                                           "OOP",  "Functional", "Procedural",
                                           "Generic","Reflective", "Event.Driven", 
                                           "Other", "Standardized")
-print("No missing values")
+#There are some missing values?
 missmap(dataset.compare.languages) 
-print("No NA values")
+# there are some NA values?
 which(is.na(dataset.compare.languages))
 
 dim(dataset.compare.languages) #134X11
@@ -116,12 +117,11 @@ freq(dataset.compare.languages$Functional)
 freq(dataset.compare.languages$Procedural)
 freq(dataset.compare.languages$Generic)
 freq(dataset.compare.languages$Reflective)
-
+freq(dataset.compare.languages$Event.Driven)
 
 #It's better. After the normalization
 
 describe(dataset.compare.languages)
-dataset.compare.languages 
 #uhm.. ugly representations: I normalize the data
 
 dataset.compare.languages$Agile <- ifelse(grepl("agile", dataset.compare.languages$Use), 10, 0)

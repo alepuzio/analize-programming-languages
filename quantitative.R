@@ -23,18 +23,8 @@ dataset.compare.languages.standards$Standardized <- NULL
 dataset.compare.languages.standards$Use<-NULL
 dataset.compare.languages.standards$Language<-NULL
 
+dataset.compare.languages.quantitative <-my.safe.copy.dataframe(dataset.compare.languages.standards)
 
-
-
-dataset.compare.languages.quantitative <- data.frame(lapply(dataset.compare.languages.standards, function(x) {
-  gsub("Yes", "2",x )
-}))
-dataset.compare.languages.quantitative <- data.frame(lapply(dataset.compare.languages.quantitative, function(x) {
-  gsub("No", "0",x )
-}))
-dataset.compare.languages.quantitative <- data.frame(lapply(dataset.compare.languages.quantitative, function(x) {
-  gsub("Parzial", "1",x )
-}))
 
 
 colnames(dataset.compare.languages.quantitative)
@@ -52,10 +42,6 @@ ggplot(dataset.compare.languages.quantitative, aes(x = Functional, y = Num.Uses)
 head(dataset.compare.languages.quantitative,1)
 status(dataset.compare.languages.quantitative)
 
-print("Transform column with number in numeric columns")
-dataset.compare.languages.quantitative[,1:36] <- sapply(dataset.compare.languages.quantitative[,1:36],as.numeric)
-apply(correlation.data, 2, is.numeric)
-#OK
 
 
 #study correlation

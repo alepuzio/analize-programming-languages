@@ -4,6 +4,20 @@
 dataset.compare.languages.qualitative <- my.safe.copy.dataframe(dataset.compare.languages)
 #delete useless columns
 
+#new column about the number of supported paradigma
+dataset.compare.languages.qualitative$Num.Paradigma <- 
+  (dataset.compare.languages.qualitative$Imperative+dataset.compare.languages.qualitative$OOP+
+  dataset.compare.languages.qualitative$Functional + dataset.compare.languages.qualitative$Procedural+
+  dataset.compare.languages.qualitative$Generic + dataset.compare.languages.qualitative$Reflective+
+  dataset.compare.languages.qualitative$Event.Driven)/10
+
+#verify Java
+dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Num.Paradigma == 7,]$Language
+#verify that every language has at least one paradigma
+dataset.compare.languages.qualitative[dataset.compare.languages.qualitative$Num.Paradigma == 0,]$Language
+
+
+
 dataset.compare.languages.qualitative$Standardized <- NULL
 dataset.compare.languages.qualitative$Use<-NULL
 dataset.compare.languages.qualitative$Other <- NULL
@@ -29,9 +43,18 @@ prediction <- predict (treemodel, newdata = test, type = 'class')
 table(prediction, test$Functional)
 fancyRpartPlot(treemodel)
 
-#Relation between Reflective paradigma and some use cases
-formula.reflective.use.cases <- Reflective ~Event.Driven + Business + Domain.Specific + Mobile + GUI + Web+Highly.domain.specific+RAD
+
+#Relation between Web and mobile and paradigmea
+formula.reflective.use.cases <- Web +Mobile~ Num.Paradigma
 treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
 prediction <- predict (treemodel, newdata = test, type = 'class')
 table(prediction, test$Reflective)
 fancyRpartPlot(treemodel)
+
+
+formula.reflective.use.cases <- Num.Paradigma ~  Functional + Imperative
+treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
+prediction <- predict (treemodel, newdata = test, type = 'class')
+table(prediction, test$Reflective)
+fancyRpartPlot(treemodel)
+
