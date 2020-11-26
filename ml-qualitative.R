@@ -36,6 +36,8 @@ dataset.compare.languages.qualitative$Standardized <- NULL
 dataset.compare.languages.qualitative$Use<-NULL
 dataset.compare.languages.qualitative$Other <- NULL
 
+
+
 #Load libraries to drawing the decision trees
 
 library("rpart")
@@ -60,17 +62,17 @@ fancyRpartPlot(treemodel)
 
 
 #Relation between Web and mobile and number of use case
-formula.reflective.use.cases <- Web +Mobile ~ Num.Uses
-treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
+formula.reflective.web.mobile.use.cases <- Web +Mobile ~ Num.Uses 
+treemodel <- rpart (formula.reflective.web.mobile.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
 prediction <- predict (treemodel, newdata = test, type = 'class')
-table(prediction, test$Reflective)
+table(prediction, test$Num.Uses)
 fancyRpartPlot(treemodel)
 
-
-formula.reflective.use.cases <- Num.Paradigma ~  Functional 
-treemodel <- rpart (formula.reflective.use.cases, data = train, method = "class", minsplit=2, minbucket=1)
+#sistemare
+formula.num.paradigma.functional <- Num.Paradigma ~  Functional 
+treemodel <- rpart (formula.num.paradigma.functional, data = train, method = "class", minsplit=2, minbucket=1)
 prediction <- predict (treemodel, newdata = test, type = 'class')
-table(prediction, test$Reflective)
+table(prediction, test$Num.Paradigma)
 fancyRpartPlot(treemodel)
 
 colnames(dataset.compare.languages.qualitative)
@@ -80,4 +82,71 @@ correlation.data <- dataset.compare.languages.qualitative
 cor.table = cor(correlation.data)
 corrplot(cor.table, method = "number",type = "lower")
 
-#linear regression
+#linear regression of th num uses in function of Num paradigma
+formula.num.cases.num.paradigma <- Num.Uses ~  Num.Paradigma
+model <- lm(formula.num.cases.num.paradigma, data = train)
+prediction <- predict (model, newdata = test)
+table(prediction, test$Num.Uses)
+cor.table = cor(correlation.data)
+corrplot(cor.table, method = "number",type = "lower")
+
+summary(model)
+
+
+#SVM
+library("e1071")
+formula.num.cases.num.paradigma <- Num.Uses ~  Num.Paradigma
+tune <- tune.svm(formula.num.cases.num.paradigma, data =train, gamma = 10^(-6:-1), cost=10^(-4:-1))
+summary(tune)
+
+model <- svm(formula.num.cases.num.paradigma, data =train, method = "c-classification", kernel="radial",probabilyt=T,gamma=0.001, cost=10000)
+prediction <- predict(model, test$Num.Uses, probability=T)
+table(prediction, test$Num.Uses)
+
+# load libraries
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering algorithms & visualization
+library(gridExtra)  # draw plot
+# function to evalutate the k
+# - dataset.to.draw: dataframe with the data
+# - function.to.draw: I'm using kmeans
+# - method.to.draw: wss, silhouette
+draw.fviz_nbclust <- function(dataset.to.draw, function.to.draw, method.to.draw ) {
+  set.seed(123)
+  fviz_nbclust(dataset.to.draw, function.to.draw, method.to.draw)
+}
+
+# function to calculate k
+# - dataset.to.cluster: dataframe with the data
+# - num.cluster: number of the clusters hwere the data are grouped
+calculate.k.means <- function(dataset.to.cluster, num.cluster) {
+  final <- kmeans(dataset.to.cluster, num.cluster, nstart = 25)
+  final
+}
+
+
+data("USAccDeaths")
+df <- scale(USArrests) # Scaling the data
+colnames(USArrests)
+head(USArrests,2)
+
+set.seed(1234)
+dataset.k.means <- my.safe.copy.dataframe(dataset.compare.languages.qualitative)
+
+dataset.k.means$Language<-dataset.compare.languages$Language
+colnames(dataset.k.means)
+head(dataset.k.means)
+
+
+dataset.k.means.column <- c("Num.Paradigma" ,"Num.Uses","Num.Other","Num.Standard")
+clusters <- calculate.k.means(dataset.k.means[,dataset.k.means.column], 10)
+o=order(clusters$cluster)
+data.frame(dataset.k.means$Language[o],clusters$cluster[o])
+
+#from https://rstudio-pubs-static.s3.amazonaws.com/33876_1d7794d9a86647ca90c4f182df93f0e8.html
+plot(dataset.k.means$Num.Standard, dataset.k.means$Num.Uses, type="n", xlim=c(0,9), xlab="Num Standards", 
+     ylab="Num Uses")
+
+text(x=dataset.k.means$Num.Standard, y=dataset.k.means$Num.Uses, 
+     labels=dataset.k.means$Language,col=clusters$cluster)
+
