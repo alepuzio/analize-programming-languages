@@ -1,5 +1,12 @@
-# qualitative
-# plot
+
+#basic plot
+# **qnorm()** doens't work
+
+boxplot(dataset.compare.languages.qualitative)
+hist(dataset.compare.languages.qualitative)
+plot(dataset.compare.languages.qualitative)
+
+# barplot
 bar_imperative <- ggplot(dataset.compare.languages, aes(x = Imperative)) +  geom_bar(fill = "orange", width = 0.7) + xlab("Imperative Paradigm") + ylab("Number of Languages")  + coord_flip() 
 
 bar_oop <- ggplot(dataset.compare.languages, aes(x = OOP)) +  geom_bar(fill = "red", width = 0.7) + xlab("OOP Paradigm") + ylab("Number of Languages")  + coord_flip() 
