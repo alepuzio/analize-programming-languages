@@ -68,7 +68,7 @@ prediction <- predict (treemodel, newdata = test, type = 'class')
 table(prediction, test$Num.Paradigma)
 fancyRpartPlot(treemodel)
 
-#Studing the correlation between the numeric columns
+# Correlation between the numeric columns
 dataset.compare.languages.quantitative <- dataset.compare.languages.quantitative[,36:39]
 correlation.data <- dataset.compare.languages.quantitative
 cor.table = cor(correlation.data)
@@ -83,14 +83,11 @@ table(prediction, test$Num.Uses)
 cor.table = cor(correlation.data)
 corrplot(cor.table, method = "number",type = "lower")
 summary(model)
-
-
 #SVM between number of paradigma of number of uses
 library("e1071")
 formula.num.cases.num.paradigma <- Num.Paradigma ~  Num.Uses
 tune <- tune.svm(formula.num.cases.num.paradigma, data =train, gamma = 10^(-6:-1), cost=10^(-4:-1))
 summary(tune)
-
 model <- svm(formula.num.cases.num.paradigma, data =train, method = "c-classification", kernel="radial",probabilyt=T,gamma=0.001, cost=10000)
 prediction <- predict(model, test)
 table(prediction, test$Num.Uses)
