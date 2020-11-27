@@ -29,8 +29,29 @@ I use [Travis](https://travis-ci.org/)
 ### Prerequisites
 
 * [R programming language](http://www.r-lang.org)
-* Package []()
-
+* Package Amelia       (install.package("Amelia")    
+* Package caret        (install.package("caret")     
+* Package cluster      (install.package("cluster")     
+* Package corrplot     (install.package("corrplot")     
+* Package cowplot      (install.package("cowplot")     
+* Package dplyr        (install.package("dplyr")    
+* Package e1071        (install.package("e1071")    
+* Package factoextra   (install.package("factoextra")
+* Package funModeling  (install.package("funModeling")
+* Package ggplot2      (install.package("ggplot2")
+* Package gridExtra    (install.package("gridExtra")
+* Package hexbin       (install.package("hexbin")
+* Package Hmisc        (install.package("Hmisc")
+* Package MASS         (install.package("MASS")
+* Package mlbench      (install.package("mlbench")
+* Package plyr         (install.package("plyr")
+* Package rattle       (install.package("rattle")
+* Package RColorBrewer (install.package("RColorBrewer")
+* Package rpart        (install.package("rpart")
+* Package rpart.plot   (install.package("rpart.plot")
+* Package rvest        (install.package("rvest")
+* Package stringr      (install.package("stringr")
+* Package tidyverse    (install.package("tidyverse")
 
 ### Installing
 
