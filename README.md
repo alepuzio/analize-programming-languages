@@ -5,7 +5,6 @@ This project was born reading [Wikipedia](http://en.wikipedia.org) and [Kaggle](
 This application runs the web scraping to Wikipedia, writes a file with the data and analize the dataset about the programming languages.
 
 
-
 ## Feature
 
 * [O] Reading and merging the data of languages about the error handling
@@ -14,7 +13,7 @@ This application runs the web scraping to Wikipedia, writes a file with the data
 
 ## Bug
 
-[O]  Organize the structure of the project and code following the [CONTRIBUTING.md](https://github.com/alepuzio/analize-programming-languages/blob/master/CONTRIBUTING.md) file.
+* [O]  Organize the structure of the project and code following the [CONTRIBUTING.md](https://github.com/alepuzio/analize-programming-languages/blob/master/CONTRIBUTING.md) file.
 
 ## Legend: 
 * [O] Doing in future in an apposite branch
